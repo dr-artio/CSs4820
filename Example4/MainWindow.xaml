@@ -15,7 +15,7 @@
                 </MenuItem>
             </MenuItem>    
         </Menu>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label x:Name="label" Content="Please enter your credentials:" Margin="0"/>
             <Grid Height="62" Width="191">
                 <Grid.RowDefinitions>

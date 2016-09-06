@@ -30,16 +30,19 @@ namespace Example5
         private const int SHUFFLE_DEPTH = 1000;
 
         public MainWindow()
+        // Constructor for Window object
         {
             InitializeComponent();
 
+            // Numbered buttons
             int l = SIZE*SIZE - 1;
             for (int i = 0; i < l; ++i)
             {
-                var b = new Button {Content = (i+1).ToString(), FontSize = 20};
+                var b = new Button {Content = i+1, FontSize = 20};
                 b.Click += ButtonClick;
                 _buttons.Add(b);
             }
+            // Empty button
             _empty = new Button {Content = "", IsEnabled = false};
             _buttons.Add(_empty);
 
@@ -48,18 +51,21 @@ namespace Example5
 
         private void FillGrid()
         {
+            // Reset the buttons' positions
             Pane.Children.Clear();
-            foreach (var b in _buttons)
-                Pane.Children.Add(b);
+            _buttons.ForEach(b => Pane.Children.Add(b));
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             int i = _buttons.IndexOf((Button) sender);
             int j = _buttons.IndexOf(_empty);
+            // Coordinates of button we clicked
             int xi = i%SIZE, yi = i/SIZE;
+            // Coordinates of empty button
             int xj = j%SIZE, yj = j/SIZE;
 
+            // Swap buttons if empty and clicked are neigbors
             if (Math.Abs(xi - xj) + Math.Abs(yi - yj) == 1)
             {
                 _buttons[j] = _buttons[i];
