@@ -1,0 +1,15 @@
+﻿<Window x:Class="Example6.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Example6"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Label x:Name="label" HorizontalAlignment="Left" VerticalAlignment="Top" MouseDown="Label_OnMouseDown" MouseUp="Label_OnMouseUp" MouseLeave="Label_OnMouseLeave" MouseEnter="Label_OnMouseEnter" MouseMove="Label_OnMouseMove" Margin="41,42,0,0">
+        <Image Width="100" Height="100" Source="button.jpg"/>    
+        </Label>
+
+    </Grid>
+</Window>
