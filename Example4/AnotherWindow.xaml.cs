@@ -25,6 +25,11 @@ namespace Example4
             InitializeComponent();
         }
 
+        public AnotherWindow(bool b)
+        {
+            InitializeComponent();
+        }
+
         private void Button_no_OnClick(object sender, RoutedEventArgs e)
         {
             IsCancel = true;

@@ -28,7 +28,7 @@ namespace Example4
 
         private void OnClose(object sender, CancelEventArgs e)
         {
-            var aw = new AnotherWindow {WindowStartupLocation = WindowStartupLocation.CenterScreen};
+            var aw = new AnotherWindow(true) {WindowStartupLocation = WindowStartupLocation.CenterScreen};
             aw.ShowDialog();
 
             e.Cancel = aw.IsCancel;

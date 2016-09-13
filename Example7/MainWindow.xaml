@@ -1,0 +1,15 @@
+﻿<Window x:Class="Example7.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Example7"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" GotKeyboardFocus="MainWindow_OnGotFocus" KeyDown="MainWindow_OnKeyDown">
+    <Grid>
+        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="69,82,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="69,129,0,0" VerticalAlignment="Top" Checked="checkBox_Checked"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="69,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_OnKeyDown" TextChanged="TextBox_OnTextChanged" />
+
+    </Grid>
+</Window>
