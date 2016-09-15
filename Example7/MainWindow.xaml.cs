@@ -20,6 +20,7 @@ namespace Example7
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,14 +47,28 @@ namespace Example7
 
         private void TextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            var textBox = (TextBox) sender;
-            textBox.Text = string.Join("", textBox.Text.Where(char.IsDigit));
+            
         }
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = (TextBox)sender;
+            var ci = textBox.CaretIndex;
             textBox.Text = string.Join("", textBox.Text.Where(char.IsDigit));
+            textBox.CaretIndex = ci;
+        }
+
+        private void Address_KeyDown(object sender, KeyEventArgs e)
+        {
+            var s = ((TextBox) sender).Text;
+            if (!s.StartsWith("http://"))
+                s = "http://" + s;
+            switch (e.Key)
+            {
+                case Key.Return:
+                    Browser.Navigate(s);
+                    break;
+            }
         }
     }
 }

@@ -5,11 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Example7"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" GotKeyboardFocus="MainWindow_OnGotFocus" KeyDown="MainWindow_OnKeyDown">
+        Title="MainWindow" Height="350" Width="525" MinHeight="200" GotKeyboardFocus="MainWindow_OnGotFocus" KeyDown="MainWindow_OnKeyDown">
     <Grid>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="69,82,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="69,129,0,0" VerticalAlignment="Top" Checked="checkBox_Checked"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="69,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_OnKeyDown" TextChanged="TextBox_OnTextChanged" />
+        
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <TabItem Header="Main">
+                <StackPanel>
+                    <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" Checked="checkBox_Checked"/>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="TextBox_OnKeyDown" TextChanged="TextBox_OnTextChanged" />
+                    <Label Content="Gender:"/>
+                    <RadioButton Content="Male" Width="100" HorizontalAlignment="Left" GroupName="Group1"/>
+                    <RadioButton Content="Feale" Width="100" HorizontalAlignment="Left" GroupName="Group1"/>
+                    
+                </StackPanel>
+                
+            </TabItem>
+            
+            <TabItem Header="Text" >
+                <RichTextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text="Text"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </TabItem>
+            <TabItem Header="Browser">
+                <StackPanel>
+                    <TextBox KeyDown="Address_KeyDown" Text="google.com"/>
+                    <WebBrowser x:Name="Browser" VerticalAlignment="Stretch" MaxHeight="1000" MinHeight="10"/>
+                </StackPanel>
+                
+            </TabItem>
+
+        </TabControl>
+        
 
     </Grid>
 </Window>

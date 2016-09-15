@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -116,6 +117,35 @@ namespace Example5
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            var focus = Keyboard.FocusedElement as UIElement;
+                    
+            switch (e.Key)
+            {
+                case Key.B:
+                {
+                    var tr = new TraversalRequest(FocusNavigationDirection.Previous);
+
+                    if (focus != null)
+                    {
+                        focus.MoveFocus(tr);
+                    }
+                    break;
+                }
+                case Key.F:
+                {
+                    var tr = new TraversalRequest(FocusNavigationDirection.Next);
+                    if (focus != null)
+                    {
+                        focus.MoveFocus(tr);
+                    }
+                    break;
+                }
+            } 
+                
         }
     }
 }
