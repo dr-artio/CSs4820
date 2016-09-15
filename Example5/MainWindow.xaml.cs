@@ -125,22 +125,20 @@ namespace Example5
                     
             switch (e.Key)
             {
-                case Key.B:
+                case Key.Tab:
                 {
-                    var tr = new TraversalRequest(FocusNavigationDirection.Previous);
-
-                    if (focus != null)
-                    {
-                        focus.MoveFocus(tr);
-                    }
+                    var direction = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
+                    var tr = new TraversalRequest(!direction ? FocusNavigationDirection.Previous : FocusNavigationDirection.Next);
+                    e.Handled = true;
+                    focus?.MoveFocus(tr);
                     break;
                 }
-                case Key.F:
+                case Key.G:
                 {
-                    var tr = new TraversalRequest(FocusNavigationDirection.Next);
-                    if (focus != null)
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl))
                     {
-                        focus.MoveFocus(tr);
+                        gameMenu.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                        
                     }
                     break;
                 }

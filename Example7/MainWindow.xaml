@@ -23,7 +23,7 @@
             </TabItem>
             
             <TabItem Header="Text" >
-                <RichTextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+                <RichTextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" >
                     <FlowDocument>
                         <Paragraph>
                             <Run Text="Text"/>
@@ -33,7 +33,7 @@
             </TabItem>
             <TabItem Header="Browser">
                 <StackPanel>
-                    <TextBox KeyDown="Address_KeyDown" Text="google.com"/>
+                    <TextBox x:Name="address" Text="google.com"/>
                     <WebBrowser x:Name="Browser" VerticalAlignment="Stretch" MaxHeight="1000" MinHeight="10"/>
                 </StackPanel>
                 

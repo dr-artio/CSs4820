@@ -24,6 +24,7 @@ namespace Example7
         public MainWindow()
         {
             InitializeComponent();
+            address.KeyDown += new KeyEventHandler(Address_KeyDown);
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)
@@ -60,6 +61,7 @@ namespace Example7
 
         private void Address_KeyDown(object sender, KeyEventArgs e)
         {
+            
             var s = ((TextBox) sender).Text;
             if (!s.StartsWith("http://"))
                 s = "http://" + s;
