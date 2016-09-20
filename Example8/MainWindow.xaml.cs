@@ -29,5 +29,34 @@ namespace Example8
         {
             MessageBox.Show("Circle hit");
         }
+
+        private void Image_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            var image = sender as Image;
+            var di = image?.Source as DrawingImage;
+            var gd = di?.Drawing as GeometryDrawing;
+            if (gd != null) gd.Brush = Brushes.DarkOrchid;
+        }
+
+        private void Image_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            var image = sender as Image;
+            var di = image?.Source as DrawingImage;
+            var gd = di?.Drawing as GeometryDrawing;
+            if (gd != null) gd.Brush = Brushes.Aqua;
+        }
+
+        private void Path_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            var sh = sender as Shape;
+            var brush = new LinearGradientBrush(Colors.Black, Colors.White, 0);
+            if (sh != null) sh.Fill = brush;
+        }
+
+        private void Path_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            var sh = sender as Shape;
+            if (sh != null) sh.Fill = Brushes.BlueViolet;
+        }
     }
 }
