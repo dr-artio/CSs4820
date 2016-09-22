@@ -1,0 +1,24 @@
+﻿<Window x:Class="Example9.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dynamic drawings" Height="350" Width="525">
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Menu">
+                <MenuItem Header="Reset"/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+        </Menu>
+        <ScrollViewer MouseDown="Canvas_OnMouseDown" MouseUp="Canvas_OnMouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Bottom" MouseMove="Canvas_OnMouseMove" MouseLeave="Canvas_OnMouseLeave" MouseDoubleClick="Canvas_OnMouseLeave">    
+           <Path Name="path" Stroke="Black" StrokeThickness="2" >
+               <Path.Data>
+                   <PathGeometry>
+                       <PathGeometry.Figures>
+                           <PathFigure IsClosed="False" IsFilled="False"/>
+                           </PathGeometry.Figures>
+                   </PathGeometry>
+               </Path.Data>
+           </Path>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

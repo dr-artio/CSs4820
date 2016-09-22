@@ -33,16 +33,16 @@ namespace Example8
         private void Image_OnMouseEnter(object sender, MouseEventArgs e)
         {
             var image = sender as Image;
-            var di = image?.Source as DrawingImage;
-            var gd = di?.Drawing as GeometryDrawing;
+            var di = image != null ? image.Source as DrawingImage : null;
+            var gd = di != null ? di.Drawing as GeometryDrawing : null;
             if (gd != null) gd.Brush = Brushes.DarkOrchid;
         }
 
         private void Image_OnMouseLeave(object sender, MouseEventArgs e)
         {
             var image = sender as Image;
-            var di = image?.Source as DrawingImage;
-            var gd = di?.Drawing as GeometryDrawing;
+            var di = image != null ? image.Source as DrawingImage : null;
+            var gd = di != null ? di.Drawing as GeometryDrawing : null;
             if (gd != null) gd.Brush = Brushes.Aqua;
         }
 
