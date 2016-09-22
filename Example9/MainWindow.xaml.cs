@@ -30,6 +30,32 @@ namespace Example9
         private void Canvas_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_start == null) _start = Mouse.GetPosition((UIElement) sender);
+            var pg = path.Data as PathGeometry;
+            pg.Figures.Add(new PathFigure
+            {
+                StartPoint = _start.Value,
+                IsClosed = false,
+                IsFilled = false,
+                Segments =
+                {
+                    new LineSegment {IsStroked = false}
+                }
+            });
+
+        }
+
+        private void Canvas_OnMouseDown_ellipse(object sender, MouseButtonEventArgs e)
+        {
+            if (_start == null) _start = Mouse.GetPosition((UIElement)sender);
+            var pg = path.Data as GeometryGroup;
+            pg.Children.Add(new EllipseGeometry {Center = _start.Value});
+        }
+
+        private void Canvas_OnMouseDown_rect(object sender, MouseButtonEventArgs e)
+        {
+            if (_start == null) _start = Mouse.GetPosition((UIElement)sender);
+            var pg = path.Data as GeometryGroup;
+            pg.Children.Add(new RectangleGeometry());
         }
 
         private void Canvas_OnMouseUp(object sender, MouseButtonEventArgs e)
@@ -37,9 +63,34 @@ namespace Example9
             if (_start == null) return;
             var p = Mouse.GetPosition((UIElement) sender);
             var pg = path.Data as PathGeometry;
-            var figs = pg.Figures.First();
-            figs.StartPoint = _start.Value;
-            figs.Segments.Add(new LineSegment {Point = p});
+            var fig = pg.Figures.Last();
+            fig.StartPoint = _start.Value;
+            var seg = fig.Segments.Last() as LineSegment;
+            seg.Point = p;
+            _start = null;
+        }
+
+        private void Canvas_OnMouseUp_ellipse(object sender, MouseButtonEventArgs e)
+        {
+            if (_start == null) return;
+            var p = Mouse.GetPosition((UIElement)sender);
+            var gg = path.Data as GeometryGroup;
+            var pg = gg.Children.Last() as EllipseGeometry;
+            pg.RadiusX = Math.Abs(p.X - _start.Value.X);
+            pg.RadiusY = Math.Abs(p.Y - _start.Value.Y);
+            
+            _start = null;
+        }
+
+        private void Canvas_OnMouseUp_rect(object sender, MouseButtonEventArgs e)
+        {
+            if (_start == null) return;
+            var p = Mouse.GetPosition((UIElement)sender);
+            var gg = path.Data as GeometryGroup;
+            var pg = gg.Children.Last() as RectangleGeometry;
+            pg.Rect = new Rect(_start.Value, p);
+
+            _start = null;
         }
 
         private void Canvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -47,18 +98,37 @@ namespace Example9
             if (_start == null) return;
             var p = Mouse.GetPosition((UIElement)sender);
             var pg = path.Data as PathGeometry;
-            var figs = pg.Figures.First();
+            var figs = pg.Figures.Last();
             var seg = figs.Segments.Last() as LineSegment;
             seg.Point = p;
+            seg.IsStroked = true;
         }
 
-        private void Canvas_OnMouseLeave(object sender, MouseEventArgs e)
+        private void Canvas_OnMouseMove_ellipse(object sender, MouseEventArgs e)
         {
             if (_start == null) return;
-            var pg = path.Data as PathGeometry;
-            var figs = pg.Figures.First();
-            figs.Segments.RemoveAt(figs.Segments.Count - 1);
-            _start = null;
+            var p = Mouse.GetPosition((UIElement)sender);
+            var gg = path.Data as GeometryGroup;
+            var pg = gg.Children.Last() as EllipseGeometry;
+            pg.RadiusX = Math.Abs(p.X - _start.Value.X);
+            pg.RadiusY = Math.Abs(p.Y - _start.Value.Y);
+            
+        }
+
+        private void Canvas_OnMouseMove_rect(object sender, MouseEventArgs e)
+        {
+            if (_start == null) return;
+            var p = Mouse.GetPosition((UIElement)sender);
+            var gg = path.Data as GeometryGroup;
+            var pg = gg.Children.Last() as RectangleGeometry;
+            pg.Rect = new Rect(_start.Value, p); 
+            
+        }
+
+        private void Reset(object sender, RoutedEventArgs e)
+        {
+            var gg = path.Data as GeometryGroup;
+            gg.Children.Clear();
         }
     }
 }

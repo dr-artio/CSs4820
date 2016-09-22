@@ -5,18 +5,14 @@
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Menu">
-                <MenuItem Header="Reset"/>
+                <MenuItem Header="Reset" Click="Reset"/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
         </Menu>
-        <ScrollViewer MouseDown="Canvas_OnMouseDown" MouseUp="Canvas_OnMouseUp" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Bottom" MouseMove="Canvas_OnMouseMove" MouseLeave="Canvas_OnMouseLeave" MouseDoubleClick="Canvas_OnMouseLeave">    
+        <ScrollViewer MouseDown="Canvas_OnMouseDown_rect" MouseUp="Canvas_OnMouseUp_rect" MouseMove="Canvas_OnMouseMove_rect" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Bottom" >    
            <Path Name="path" Stroke="Black" StrokeThickness="2" >
                <Path.Data>
-                   <PathGeometry>
-                       <PathGeometry.Figures>
-                           <PathFigure IsClosed="False" IsFilled="False"/>
-                           </PathGeometry.Figures>
-                   </PathGeometry>
+                   <GeometryGroup/>
                </Path.Data>
            </Path>
         </ScrollViewer>
