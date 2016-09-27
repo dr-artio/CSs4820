@@ -12,10 +12,24 @@ namespace Example10.ViewModel
 {
     internal class ViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ViewModel()
+        {
+            _generators.Add(new Generator(GenerateRandomString, "The length:", "String"));
+            _generators.Add(new Generator(GenerateRandomFloat, "The max value:", "Double"));
+            _generators.Add(new Generator(GenerateRandomInt, "The max value:", "Integer"));
+        }
+
+        // Private fields
         private readonly List<Generator> _generators = new List<Generator>(3);
         private int _selectedIndex;
         private int _length;
         private readonly Random _rnd = new Random();
+        
+        
+        // Public interface
         public string Value { get; set; }
 
         public int Length
@@ -24,6 +38,7 @@ namespace Example10.ViewModel
             set
             {
                 _length = value;
+                // Fire property changed event manually
                 OnPropertyChanged("GeneratedValue");
             }
         }
@@ -37,12 +52,17 @@ namespace Example10.ViewModel
             set
             {
                 _selectedIndex = value;
+                // Fire prameter changed to update label 
+                // and new GeneratedValue
                 OnPropertyChanged("Parameter");
                 OnPropertyChanged("GeneratedValue");
             }
         }
 
-        public List<string> Types { get { return types; } }
+        /// <summary>
+        /// List of possible types we can generate random value
+        /// </summary>
+        public List<string> Types { get { return _generators.Select(x=> x.Type).ToList(); } }
 
         public string Parameter
         {
@@ -51,6 +71,10 @@ namespace Example10.ViewModel
             }
         }
 
+
+        /// <summary>
+        /// Read-only property holding random value
+        /// </summary>
         public string GeneratedValue
         {
             get
@@ -59,24 +83,14 @@ namespace Example10.ViewModel
             }
         }
 
-        public List<string> types = new List<string> {"String", "Double", "Integer"};
-        
-
-
-        public ViewModel()
-        {
-            _generators.Add(new Generator(GenerateRandomString, "The length:"));
-            _generators.Add(new Generator(GenerateRandomFloat, "The max value:"));
-            _generators.Add(new Generator(GenerateRandomInt, "The max value:"));
-        }
-
+        // Methods to generate random values of different types
         private string GenerateRandomString(int length)
         {
             if (length <= 0) return "";
             var sb = new StringBuilder(length);
             for (int i = 0; i < length; ++i)
             {
-                char a = (char)_rnd.Next('A', 'z');
+                char a = (char)_rnd.Next('A', 'Z');
                 sb.Append(a);
             }
             return sb.ToString();
@@ -92,18 +106,27 @@ namespace Example10.ViewModel
             return (_rnd.NextDouble() * max).ToString(CultureInfo.InvariantCulture);
         }
 
+
+        /// <summary>
+        /// Inner class to hold necessary properties
+        /// </summary>
         private class Generator
         {
             public Func<int, string> Generate { get; private set; }
             public string Parameter { get; private set; }
+            public string Type { get; private set; }
 
-            public Generator(Func<int, string> generate, string parameter)
+            public Generator(Func<int, string> generate, string parameter, string type)
             {
                 Generate = generate;
                 Parameter = parameter;
+                Type = type;
             }
         }
 
+        /// <summary>
+        /// Implementation of interface INotifyPropertyChanged
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
