@@ -11,7 +11,7 @@
             <ComboBox Name="Types" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemsSource="{Binding Types}" />
             <Label Name="Type" Content="{Binding Parameter, Mode=OneWay}"/>
             <TextBox Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            
+            <Button Content="Generate" Click="ButtonBase_OnClick"/>
         </StackPanel>
         <Label Content="Generated value:" DockPanel.Dock="Top" Margin="5"/>
         <TextBox IsReadOnly="True" VerticalScrollBarVisibility="Auto" Text="{Binding GeneratedValue, Mode=OneWay}" TextWrapping="Wrap" DockPanel.Dock="Bottom" Margin="5"/>

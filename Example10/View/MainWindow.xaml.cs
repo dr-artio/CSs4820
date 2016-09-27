@@ -24,5 +24,11 @@ namespace Example10
         {
             InitializeComponent();
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var vm = this.DataContext as ViewModel.ViewModel;
+            vm.Update();
+        }
     }
 }

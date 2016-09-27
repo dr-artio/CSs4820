@@ -59,6 +59,11 @@ namespace Example10.ViewModel
             }
         }
 
+        public void Update()
+        {
+            OnPropertyChanged("GeneratedValue");
+        }
+
         /// <summary>
         /// List of possible types we can generate random value
         /// </summary>
