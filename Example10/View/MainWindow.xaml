@@ -1,0 +1,19 @@
+﻿<Window x:Class="Example10.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mvvmns="clr-namespace:Example10.ViewModel"
+        Title="MVVM" Height="350" Width="525" >
+    <Window.DataContext>
+        <mvvmns:ViewModel Length="1"/>
+    </Window.DataContext>
+    <DockPanel>
+        <StackPanel Margin="5" Width="120">
+            <ComboBox Name="Types" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemsSource="{Binding Types}" />
+            <Label Name="Type" Content="{Binding Parameter, Mode=OneWay}"/>
+            <TextBox Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            
+        </StackPanel>
+        <Label Content="Generated value:" DockPanel.Dock="Top" Margin="5"/>
+        <TextBox IsReadOnly="True" VerticalScrollBarVisibility="Auto" Text="{Binding GeneratedValue, Mode=OneWay}" TextWrapping="Wrap" DockPanel.Dock="Bottom" Margin="5"/>
+    </DockPanel>
+</Window>
