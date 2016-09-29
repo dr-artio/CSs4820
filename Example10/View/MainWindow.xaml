@@ -4,7 +4,7 @@
         xmlns:mvvmns="clr-namespace:Example10.ViewModel"
         Title="MVVM" Height="350" Width="525" >
     <Window.DataContext>
-        <mvvmns:ViewModel Length="1"/>
+        <mvvmns:ViewModel x:Name="ViewModel" Length="1"/>
     </Window.DataContext>
     <DockPanel>
         <StackPanel Margin="5" Width="120">

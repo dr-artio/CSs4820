@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Example10
+namespace Example10.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CustomComboBox.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CustomComboBox : UserControl
     {
-        public MainWindow()
+        public CustomComboBox()
         {
             InitializeComponent();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Update();
         }
     }
 }

@@ -10,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Example10
+namespace Example10.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CustomWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CustomWindow : Window
     {
-        public MainWindow()
+        public CustomWindow()
         {
             InitializeComponent();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Update();
         }
     }
 }
