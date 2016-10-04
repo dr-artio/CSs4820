@@ -8,12 +8,12 @@
     </Window.DataContext>
     <DockPanel>
         <StackPanel Margin="5" Width="120">
-            <ComboBox Name="Types" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" ItemsSource="{Binding Types}" />
-            <Label Name="Type" Content="{Binding Parameter, Mode=OneWay}"/>
-            <TextBox Text="{Binding Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox Name="Types"  SelectionChanged="Types_OnSelectionChanged" SelectedIndex="0"/>
+            <Label Name="Type" />
+            <TextBox Name="Length" Text="1" TextChanged="Length_OnTextChanged"/>
             <Button Content="Generate" Click="ButtonBase_OnClick"/>
         </StackPanel>
         <Label Content="Generated value:" DockPanel.Dock="Top" Margin="5"/>
-        <TextBox IsReadOnly="True" VerticalScrollBarVisibility="Auto" Text="{Binding GeneratedValue, Mode=OneWay}" TextWrapping="Wrap" DockPanel.Dock="Bottom" Margin="5"/>
+        <TextBox Name="GeneratedValue" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" DockPanel.Dock="Bottom" Margin="5"/>
     </DockPanel>
 </Window>
