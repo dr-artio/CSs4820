@@ -1,10 +1,15 @@
 ﻿<Window x:Class="Example10.View.DataGridWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mvvmns="clr-namespace:Example10.ViewModel"
         Title="DataGridWindow" Height="300" Width="300" Closing="DataGridWindow_OnClosing">
-    <Grid>
-        
-        <DataGrid x:Name="DataGrid"/>
+    <Window.DataContext>
+        <mvvmns:DataGridViewModel x:Name="DataGridViewModel"/>
+    </Window.DataContext>
+    <StackPanel>
 
-    </Grid>
+        <DataGrid x:Name="DataGrid" ItemsSource="{Binding People}"/>
+        <Button Content="Sort By Age" Click="ButtonBase_OnClick"/>
+        <CheckBox Content="Filter by Gender Male" IsChecked="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
+    </StackPanel>
 </Window>
