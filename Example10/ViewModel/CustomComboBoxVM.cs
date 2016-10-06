@@ -46,8 +46,8 @@ namespace Example10.ViewModel
             {
                 _selectedIndex = value;
                 Reason = IsOtherSelected ? Reason : "";
-                OnPropertyChanged(nameof(Reason));
-                OnPropertyChanged(nameof(IsOtherSelected));
+                OnPropertyChanged("Reason");
+                OnPropertyChanged("IsOtherSelected");
             }
         }
 
@@ -61,7 +61,7 @@ namespace Example10.ViewModel
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
