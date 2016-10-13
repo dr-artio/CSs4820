@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -24,8 +25,14 @@ namespace Example11.ViewModel
                     Thread.Sleep(_rnd.Next(2000));
                     _progress += _rnd.Next(30);
                     OnPropertyChanged("Progress");
-                } 
+                }
             });
+        }
+
+        public void Update(int progress)
+        {
+            _progress = progress;
+            OnPropertyChanged("Progress");
         }
         
         public int Progress

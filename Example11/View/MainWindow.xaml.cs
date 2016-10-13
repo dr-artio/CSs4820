@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,11 +27,28 @@ namespace Example11.View
 
         private void RangeBase_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (Math.Abs(e.NewValue - 100) < 0.1)
+            if (e.NewValue >= 100)
             {
                 ProgressBar.Visibility = Visibility.Hidden;
                 MyLabel.Content = "Completed!";
             }
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            int _progress = 0;
+            var _rnd = new Random();
+            Task.Run(() =>
+            {
+                while (_progress < 100)
+                {
+                    Thread.Sleep(_rnd.Next(2000));
+                    _progress += _rnd.Next(30);
+                    
+//                    ProcessViewModel.Update(_progress);
+                }
+            });
+
         }
     }
 }
