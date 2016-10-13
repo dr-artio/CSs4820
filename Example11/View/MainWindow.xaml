@@ -1,0 +1,14 @@
+﻿<Window x:Class="Example11.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mvvm="clr-namespace:Example11.ViewModel"
+        Title="MainWindow" Height="300" Width="300">
+    <Window.DataContext>
+        <mvvm:ProcessViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <ProgressBar x:Name="ProgressBar" Width="200" Height="20" Value="{Binding Progress, Mode=OneWay}" ValueChanged="RangeBase_OnValueChanged"/>
+        <Label VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="MyLabel"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="46,95,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
