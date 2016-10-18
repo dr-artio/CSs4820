@@ -50,5 +50,12 @@ namespace Example11.View
             });
 
         }
+
+        private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var red = (TextBox) sender;
+            var be = red.GetBindingExpression(TextBox.TextProperty);
+            be.UpdateSource();
+        }
     }
 }

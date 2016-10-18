@@ -7,7 +7,14 @@
         <mvvm:ProcessViewModel x:Name="ProcessViewModel"/>
     </Window.DataContext>
     <Grid>
-        <ProgressBar x:Name="ProgressBar" Foreground="{Binding Color}"  Width="200" Height="20" Value="{Binding Progress, Mode=OneWay}" ValueChanged="RangeBase_OnValueChanged"/>
+        <ProgressBar x:Name="ProgressBar" Foreground="{Binding Color}"  Width="200" Value="{Binding Progress, Mode=OneWay}" ValueChanged="RangeBase_OnValueChanged" Margin="42,144,51.6,100.4" RenderTransformOrigin="0.5,0.5">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="15.021"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
         <Label x:Name="MyLabel" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <Grid Height="100" Width="200" Margin="0" VerticalAlignment="Top">
             <Grid.RowDefinitions>
@@ -21,14 +28,14 @@
                 <ColumnDefinition Width="126*"/>
                 <ColumnDefinition Width="29*"/>
             </Grid.ColumnDefinitions>
-            <Slider  Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="1" Value="{Binding Red}"/>
-            <Slider  Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="2" Value="{Binding Green}"/>
+            <Slider Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="1" Value="{Binding Red}"/>
+            <Slider Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="2" Value="{Binding Green}"/>
             <Slider Maximum="255"  Grid.Column="1" Margin="0,4,0,0" Grid.Row="3" Value="{Binding Blue}"/>
             <Label Content="Color:"  Grid.RowSpan="2"/>
             <Label Content="Red:"  Grid.Row="1"/>
             <Label Content="Green:"  Grid.Row="2" />
             <Label Content="Blue" Grid.Row="3"/>
-            <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,2,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Red, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="29"/>
+            <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,2,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Red, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="29" TextChanged="TextBoxBase_OnTextChanged"/>
             <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,2,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Green, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="29"/>
             <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,2,0,0" Grid.Row="3" TextWrapping="Wrap" Text="{Binding Blue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="29"/>
             <Rectangle Grid.Column="1" Fill="{Binding Color}" HorizontalAlignment="Left" Height="19" Margin="10,2,0,0" Width="106"/>
