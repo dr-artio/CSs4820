@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Example11.Annotations;
 
 namespace Example11.ViewModel
@@ -15,6 +16,8 @@ namespace Example11.ViewModel
     {
         private int _progress = 0;
         private Random _rnd = new Random();
+        private Brush color;
+        private byte _green, _red, _blue;
 
         public ProcessViewModel()
         {
@@ -23,10 +26,11 @@ namespace Example11.ViewModel
                 while (_progress < 100)
                 {
                     Thread.Sleep(_rnd.Next(2000));
-                    _progress += _rnd.Next(30);
+                    _progress += _rnd.Next(10);
                     OnPropertyChanged("Progress");
                 }
             });
+            _green = 224;
         }
 
         public void Update(int progress)
@@ -38,6 +42,47 @@ namespace Example11.ViewModel
         public int Progress
         {
             get { return _progress; }
+        }
+
+        public Brush Color
+        {
+            get
+            {
+                return new SolidColorBrush {Color = System.Windows.Media.Color.FromRgb(Red, Green, Blue)};
+            }
+        }
+
+        public byte Green
+        {
+            get { return _green; }
+            set
+            {
+                _green = value;
+                OnPropertyChanged();
+                OnPropertyChanged("Color");
+            }
+        }
+
+        public byte Red
+        {
+            get { return _red; }
+            set
+            {
+                _red = value;
+                OnPropertyChanged();
+                OnPropertyChanged("Color");
+            }
+        }
+
+        public byte Blue
+        {
+            get { return _blue; }
+            set
+            {
+                _blue = value;
+                OnPropertyChanged();
+                OnPropertyChanged("Color");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
