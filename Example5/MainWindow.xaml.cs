@@ -25,95 +25,37 @@ namespace Example5
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Button> _buttons = new List<Button>();
-        private Button _empty;
-        private const int SIZE = 4;
-        private const int SHUFFLE_DEPTH = 1000;
-
         public MainWindow()
         // Constructor for Window object
         {
             InitializeComponent();
 
             // Numbered buttons
-            
             foreach (int i in ViewModel.ButtonIds)
             {
                 var b = new Button { FontSize = 20};
-                b.SetBinding(ButtonBase.ContentProperty, "Buttons[" + i + "].Content");
-                b.SetBinding(ButtonBase.IsEnabledProperty, "Buttons[" + i + "].IsEnabled");
+                b.SetBinding(ButtonBase.ContentProperty, string.Format("Buttons[{0}].Content", i));
+                b.SetBinding(ButtonBase.IsEnabledProperty, string.Format("Buttons[{0}].IsEnabled", i));
+                b.Tag = i;
                 b.Click += ButtonClick;
-                _buttons.Add(b);
+                Pane.Children.Add(b);
             }
-            // Empty button
-            _empty = _buttons.Last();
-            //_buttons.Add(_empty);
-
-            FillGrid();
-        }
-
-        private void FillGrid()
-        {
-            // Reset the buttons' positions
-            Pane.Children.Clear();
-            _buttons.ForEach(b => Pane.Children.Add(b));
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            int i = _buttons.IndexOf((Button) sender);
-            int j = _buttons.IndexOf(_empty);
-            // Coordinates of button we clicked
-            int xi = i%SIZE, yi = i/SIZE;
-            // Coordinates of empty button
-            int xj = j%SIZE, yj = j/SIZE;
-
-            // Swap buttons if empty and clicked are neigbors
-            if (Math.Abs(xi - xj) + Math.Abs(yi - yj) == 1)
-            {
-                _buttons[j] = _buttons[i];
-                _buttons[i] = _empty;
-            }
-            FillGrid();
+            var b = (Button)sender;
+            ViewModel.Click((int)b.Tag);
         }
 
         private void ShufflePane(object sender, RoutedEventArgs e)
         {
-            var rnd = new Random();
-            for (int i = 0; i < SHUFFLE_DEPTH; ++i)
-            {
-                int j = rnd.Next(_buttons.Count);
-                
-                _buttons[j].RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            }
-        }
-
-        class ButtonCmp : IComparer<Button>
-        {
-            private Button _empty;
-            public ButtonCmp(Button empty)
-            {
-                _empty = empty;
-            }
-            public int Compare(Button x, Button y)
-            {
-                if (x == _empty) return 1;
-                if (y == _empty) return -1;
-                int ix = int.Parse(x.Content.ToString());
-                int iy = int.Parse(y.Content.ToString());
-                return ix.CompareTo(iy);
-            }
+            ViewModel.Shuffle();
         }
 
         private void ResetPane(object sender, RoutedEventArgs e)
         {
-            
-            _buttons.Sort(new ButtonCmp(_empty));
-//            _buttons = _buttons.OrderBy(
-//                b => b == _empty
-//                    ? int.MaxValue
-//                    : int.Parse(b.Content.ToString())).ToList();
-            FillGrid();
+            ViewModel.Reset();
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -130,22 +72,20 @@ namespace Example5
                 case Key.Tab:
                 {
                     var direction = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-                    var tr = new TraversalRequest(!direction ? FocusNavigationDirection.Previous : FocusNavigationDirection.Next);
+                    var tr =
+                        new TraversalRequest(!direction
+                            ? FocusNavigationDirection.Previous
+                            : FocusNavigationDirection.Next);
                     e.Handled = true;
                     if (focus != null) focus.MoveFocus(tr);
                     break;
-                }
+                   }
                 case Key.G:
-                {
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                    {
-                        gameMenu.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
-                        
-                    }
+                    ViewModel.Shuffle();
                     break;
-                }
-            } 
-                
+
+            }
+
         }
     }
 }
