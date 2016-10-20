@@ -37,6 +37,12 @@ namespace Example10.View
         {
             DataGridViewModel.SortByAge();
         }
+
+        private void DataGrid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyName != "Gender")
+                e.Cancel = true;
+        }
     }
 
 }

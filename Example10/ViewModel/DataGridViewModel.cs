@@ -78,32 +78,10 @@ namespace Example10.ViewModel
 //            });
         }
 
-        public bool Filter
-        {
-            get { return _filter != null; }
-            set
-            {
-                if (value) _filter = h => h.Gender == Gender.Male;
-                else _filter = null;
-                OnPropertyChanged("People");
-            }
-        }
-
         public BindingList<Human> People
         {
             get
             {
-                if (_filter != null)
-                {
-                    var result = people.Where(_filter);
-                    var list = new BindingList<Human>();
-                    foreach (var h in result)
-                    {
-                        list.Add(h);
-                    }
-                    return list;
-                }
-                
                 return people;
             }
         }
@@ -139,14 +117,13 @@ namespace Example10.ViewModel
         [DisplayName("Last Name")]
         public string LastName { get; set; }
     
-        public string BirthDate
+        public DateTime BirthDate
         {
-            get { return _birthDate.ToShortDateString(); }
+            get { return _birthDate; }
             set
             {
 
-                _birthDate = DateTime.Parse(value);
-
+                _birthDate = value;
                 OnPropertyChanged("Age");
             }
         }
@@ -161,6 +138,8 @@ namespace Example10.ViewModel
         }
 
         public Gender Gender { get; set; }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public override string ToString()
@@ -173,7 +152,7 @@ namespace Example10.ViewModel
             var items = line.Split('\t');
             FirstName = items[0];
             LastName = items[1];
-            BirthDate = items[2];
+            BirthDate = DateTime.Parse(items[2]);
             Gender = items[3].Contains("Female") ? Gender.Female : Gender.Male;
         }
 

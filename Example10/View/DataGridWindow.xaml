@@ -8,8 +8,22 @@
     </Window.DataContext>
     <StackPanel>
 
-        <DataGrid x:Name="DataGrid" ItemsSource="{Binding People}"/>
-        <Button Content="Sort By Age" Click="ButtonBase_OnClick"/>
-        <CheckBox Content="Filter by Gender Male" IsChecked="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
+         <DataGrid x:Name="DataGrid" AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding People}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"/>
+                <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"/>
+                <DataGridTemplateColumn Header="Birthdate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding BirthDate}"></DatePicker>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Age" Binding="{Binding Age}"/>
+                
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        
     </StackPanel>
 </Window>

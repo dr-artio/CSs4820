@@ -36,16 +36,18 @@ namespace Example5
             InitializeComponent();
 
             // Numbered buttons
-            int l = SIZE*SIZE - 1;
-            for (int i = 0; i < l; ++i)
+            
+            foreach (int i in ViewModel.ButtonIds)
             {
-                var b = new Button {Content = i+1, FontSize = 20};
+                var b = new Button { FontSize = 20};
+                b.SetBinding(ButtonBase.ContentProperty, "Buttons[" + i + "].Content");
+                b.SetBinding(ButtonBase.IsEnabledProperty, "Buttons[" + i + "].IsEnabled");
                 b.Click += ButtonClick;
                 _buttons.Add(b);
             }
             // Empty button
-            _empty = new Button {Content = "", IsEnabled = false};
-            _buttons.Add(_empty);
+            _empty = _buttons.Last();
+            //_buttons.Add(_empty);
 
             FillGrid();
         }
@@ -130,7 +132,7 @@ namespace Example5
                     var direction = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
                     var tr = new TraversalRequest(!direction ? FocusNavigationDirection.Previous : FocusNavigationDirection.Next);
                     e.Handled = true;
-                    focus?.MoveFocus(tr);
+                    if (focus != null) focus.MoveFocus(tr);
                     break;
                 }
                 case Key.G:
