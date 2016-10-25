@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Example5.Properties {
+namespace Example51.Properties {
     using System;
     
     

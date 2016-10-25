@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Example5.Annotations;
+using Example51.Annotations;
 
 namespace Example5
 {
@@ -38,12 +38,27 @@ namespace Example5
             get { return _keys; }            
         }
 
+        public bool IsOrdered
+        {
+            get { return _buttons.All(x => x.Key == x.Value.Key); }
+        }
+
         public void Click(int index)
         {
+            if (index == _empty) return;
             int xi, yi;
             GetCoordinates(index, out xi, out yi);
             int xj, yj;
             GetCoordinates(_empty, out xj, out yj);
+
+            var cmpy = yi.CompareTo(yj);
+            var cmpx = xi.CompareTo(xj);
+            if (cmpy == 0 || cmpx == 0)
+            {
+                Click(FromCoordinates(xi - cmpx, yi - cmpy));
+                GetCoordinates(_empty, out xj, out yj);
+            }
+
             if (Math.Abs(xi - xj) + Math.Abs(yi - yj) == 1)
             {
                 var state = _buttons[_empty];
@@ -51,6 +66,7 @@ namespace Example5
                 _buttons[index] = state;
                 _empty = index;
                 OnPropertyChanged("Buttons");
+                OnPropertyChanged("IsOrdered");
             }
         }
 
@@ -58,7 +74,7 @@ namespace Example5
         {
             foreach (var id in ButtonIds)
             {
-                _buttons[id] = new State {Content = (id+1).ToString()};
+                _buttons[id] = new State {Content = (id+1).ToString(), Key = id};
             }
             _empty = l;
             _buttons[l].Content = string.Empty;
@@ -82,6 +98,11 @@ namespace Example5
         {
             x = index % SIZE;
             y = index / SIZE;
+        }
+
+        private int FromCoordinates(int x, int y)
+        {
+            return y*SIZE + x;
         }
 
         [NotifyPropertyChangedInvocator]

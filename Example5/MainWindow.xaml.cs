@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -17,7 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 
-namespace Example5
+namespace Example51
 {
 
     /// <summary>
@@ -33,7 +34,7 @@ namespace Example5
             // Numbered buttons
             foreach (int i in ViewModel.ButtonIds)
             {
-                var b = new Button { FontSize = 20};
+                var b = new Button { FontSize = 40};
                 b.SetBinding(ButtonBase.ContentProperty, string.Format("Buttons[{0}].Content", i));
                 b.SetBinding(ButtonBase.IsEnabledProperty, string.Format("Buttons[{0}].IsEnabled", i));
                 b.Tag = i;
@@ -86,6 +87,14 @@ namespace Example5
 
             }
 
+        }
+
+        private void ViewModel_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsOrdered" && ViewModel.IsOrdered)
+            {
+                MessageBox.Show("Congratulations!");
+            }
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿<Window x:Class="Example5.MainWindow"
+﻿<Window x:Class="Example51.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mvvm="clr-namespace:Example5"
         mc:Ignorable="d"
-        Title="Put it in order" Height="350" Width="525" KeyDown="MainWindow_OnKeyDown">
+        Title="Put it in order" Height="500" Width="525" KeyDown="MainWindow_OnKeyDown">
     <Window.DataContext>
-        <mvvm:ViewModel x:Name="ViewModel"/>
+        <mvvm:ViewModel x:Name="ViewModel" PropertyChanged="ViewModel_OnPropertyChanged"/>
     </Window.DataContext>
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Menu DockPanel.Dock="Top">
