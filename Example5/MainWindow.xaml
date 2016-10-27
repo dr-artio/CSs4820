@@ -12,8 +12,8 @@
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Game" x:Name="gameMenu">
-                <MenuItem Header="Start" Click="ShufflePane"></MenuItem>
-                <MenuItem Header="Reset" Click="ResetPane"></MenuItem>
+                <MenuItem Header="Start" Click="ShufflePane" IsEnabled="{Binding IsOrdered}"></MenuItem>
+                <MenuItem Header="Reset" Click="ResetPane" IsEnabled="{Binding IsResetEnabled}"></MenuItem>
                 <MenuItem Header="Exit" Click="MenuItem_OnClick"></MenuItem>
             </MenuItem>
         </Menu>

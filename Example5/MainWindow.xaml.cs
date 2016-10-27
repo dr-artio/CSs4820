@@ -46,7 +46,7 @@ namespace Example51
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             var b = (Button)sender;
-            ViewModel.Click((int)b.Tag);
+            ViewModel.Click(Pane.Children.IndexOf(b));
         }
 
         private void ShufflePane(object sender, RoutedEventArgs e)
@@ -91,9 +91,9 @@ namespace Example51
 
         private void ViewModel_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsOrdered" && ViewModel.IsOrdered)
+            if (e.PropertyName == "IsOrdered" && ViewModel.IsOrdered && ViewModel.IsStarted)
             {
-                MessageBox.Show("Congratulations!");
+                MessageBox.Show(string.Format("Congratulations! Elapsed time: {0}", ViewModel.Elapsed));
             }
         }
     }
