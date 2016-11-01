@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Example5
     class ViewModel : INotifyPropertyChanged
     {
         private const int SIZE = 4;
-        private const int SHUFFLE_DEPTH = 10;
+        private const int SHUFFLE_DEPTH = 100;
         private readonly Dictionary<int, State> _buttons = new Dictionary<int, State>();
         private readonly List<int> _keys = new List<int>();
         private int _empty;
@@ -88,6 +89,7 @@ namespace Example5
                 OnPropertyChanged("Buttons");
                 OnPropertyChanged("IsOrdered");
                 OnPropertyChanged("IsResetEnabled");
+                Thread.Sleep(500);
                 if (IsOrdered) _stopwatch.Stop();
             }
         }

@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml;
 
 namespace Example51
@@ -26,6 +27,8 @@ namespace Example51
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static Action EmptyDelegate = delegate() { };
+
         public MainWindow()
         // Constructor for Window object
         {
@@ -34,8 +37,10 @@ namespace Example51
             // Numbered buttons
             foreach (int i in ViewModel.ButtonIds)
             {
-                var b = new Button { FontSize = 40};
-                b.SetBinding(ButtonBase.ContentProperty, string.Format("Buttons[{0}].Content", i));
+                var lb = new Label {Margin = new Thickness(10)};
+                var b = new Button { FontSize = 40, Content = new Viewbox {Child = lb}};
+                
+                lb.SetBinding(Label.ContentProperty, string.Format("Buttons[{0}].Content", i));
                 b.SetBinding(ButtonBase.IsEnabledProperty, string.Format("Buttons[{0}].IsEnabled", i));
                 b.Tag = i;
                 b.Click += ButtonClick;
@@ -95,6 +100,7 @@ namespace Example51
             {
                 MessageBox.Show(string.Format("Congratulations! Elapsed time: {0}", ViewModel.Elapsed));
             }
+            Pane.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
         }
     }
 }
