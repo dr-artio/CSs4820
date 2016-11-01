@@ -16,7 +16,7 @@ namespace Example5
     class ViewModel : INotifyPropertyChanged
     {
         private const int SIZE = 4;
-        private const int SHUFFLE_DEPTH = 100;
+        private const int SHUFFLE_DEPTH = 200;
         private readonly Dictionary<int, State> _buttons = new Dictionary<int, State>();
         private readonly List<int> _keys = new List<int>();
         private int _empty;
@@ -86,10 +86,11 @@ namespace Example5
                 _buttons[_empty] = _buttons[index];
                 _buttons[index] = state;
                 _empty = index;
+                
                 OnPropertyChanged("Buttons");
                 OnPropertyChanged("IsOrdered");
                 OnPropertyChanged("IsResetEnabled");
-                Thread.Sleep(500);
+                if (!_isShuffling) Thread.Sleep(500);
                 if (IsOrdered) _stopwatch.Stop();
             }
         }

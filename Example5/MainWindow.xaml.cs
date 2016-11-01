@@ -38,7 +38,7 @@ namespace Example51
             foreach (int i in ViewModel.ButtonIds)
             {
                 var lb = new Label {Margin = new Thickness(10)};
-                var b = new Button { FontSize = 40, Content = new Viewbox {Child = lb}};
+                var b = new Button {FontSize = 25, Content = new Viewbox {Child = lb}};
                 
                 lb.SetBinding(Label.ContentProperty, string.Format("Buttons[{0}].Content", i));
                 b.SetBinding(ButtonBase.IsEnabledProperty, string.Format("Buttons[{0}].IsEnabled", i));
