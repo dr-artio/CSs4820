@@ -6,11 +6,24 @@
         xmlns:local="clr-namespace:Example12"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" KeyDown="MainWindow_OnKeyDown">
+    <Window.Resources>
+        
+            <Storyboard x:Key="anim">
+                <DoubleAnimation
+                                Storyboard.TargetName="running_text" 
+                                Storyboard.TargetProperty="(Canvas.Left)" 
+                                From="300" To="0" 
+                                Duration="0:0:01.5"
+                                AutoReverse="False"/>
+            </Storyboard>
+        
+    </Window.Resources>
     <StackPanel>
-        <ScrollViewer VerticalScrollBarVisibility="Disabled" x:Name="line" Width="300" Height="30" UseLayoutRounding="True">
-            <Label x:Name="running_text" Margin="300, 5, 0, 0" Content="1"/>
-        </ScrollViewer>
+        <Canvas x:Name="line" Width="300" Height="30" UseLayoutRounding="True" ClipToBounds="True">
+            <Label x:Name="running_text" Content="Hello World" Canvas.Top="5" Canvas.Left="300"/>
+        </Canvas>
         <Slider x:Name="speed" Minimum="1" Maximum="10" Width="100"/>
+       
         <TextBox x:Name="text" TextWrapping="Wrap"/>
     </StackPanel>
 </Window>
