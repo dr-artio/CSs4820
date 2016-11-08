@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Example51.Annotations;
 
@@ -72,13 +73,13 @@ namespace Example5
             int xj, yj;
             GetCoordinates(_empty, out xj, out yj);
 
-            var cmpy = yi.CompareTo(yj);
-            var cmpx = xi.CompareTo(xj);
-            if (cmpy == 0 || cmpx == 0)
-            {
-                Click(FromCoordinates(xi - cmpx, yi - cmpy));
-                GetCoordinates(_empty, out xj, out yj);
-            }
+            //var cmpy = yi.CompareTo(yj);
+            //var cmpx = xi.CompareTo(xj);
+            //if (cmpy == 0 || cmpx == 0)
+            //{
+            //    Click(FromCoordinates(xi - cmpx, yi - cmpy));
+            //    GetCoordinates(_empty, out xj, out yj);
+            //}
 
             if (Math.Abs(xi - xj) + Math.Abs(yi - yj) == 1)
             {
@@ -86,27 +87,51 @@ namespace Example5
                 _buttons[_empty] = _buttons[index];
                 _buttons[index] = state;
                 _empty = index;
-                
-                OnPropertyChanged("Buttons");
+
+                OnPropertyChanged(index.ToString());
                 OnPropertyChanged("IsOrdered");
                 OnPropertyChanged("IsResetEnabled");
-                if (!_isShuffling) Thread.Sleep(500);
+                
                 if (IsOrdered) _stopwatch.Stop();
             }
+            ResetDirs();
         }
 
         public void Reset()
         {
             _stopwatch.Reset();
             foreach (var id in ButtonIds)
-            {
+            {;
                 _buttons[id] = new State {Content = (id+1).ToString(), Key = id};
             }
             _empty = l;
             _buttons[l].Content = string.Empty;
+            ResetDirs();
             OnPropertyChanged("Buttons");
             OnPropertyChanged("IsResetEnabled");
             OnPropertyChanged("IsOrdered");
+        }
+
+        public void ResetDirs()
+        {
+            int ex, ey;
+            GetCoordinates(_empty, out ex, out ey);
+            foreach (var i in ButtonIds)
+            {
+                int x, y;
+                GetCoordinates(i, out x, out y);
+                if (Math.Abs(ex - x) + Math.Abs(ey - y) == 1 && !IsOrdered)
+                {
+                    _buttons[i].Xdir = ex.CompareTo(x);
+                    _buttons[i].Ydir = ey.CompareTo(y); 
+                }
+                else
+                {
+                    _buttons[i].Xdir = 0;
+                    _buttons[i].Ydir = 0; 
+                }
+            }
+            //OnPropertyChanged("Buttons");
         }
 
         public void Shuffle()
@@ -121,6 +146,11 @@ namespace Example5
             OnPropertyChanged("Buttons");
             _isShuffling = false;
             _stopwatch.Restart();
+        }
+
+        public void Refresh()
+        {
+            OnPropertyChanged("Buttons");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -146,7 +176,9 @@ namespace Example5
     class State
     {
         public string Content { get; set; }
-        public bool IsEnabled { get { return !string.IsNullOrEmpty(Content); } }
+        public Visibility IsEnabled { get { return string.IsNullOrEmpty(Content) ? Visibility.Hidden : Visibility.Visible; } }
         public int Key { get; set; }
+        public int Xdir { get; set; }
+        public int Ydir { get; set; }
     }
 }

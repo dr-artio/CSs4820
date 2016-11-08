@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,7 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xaml;
 using System.Xml;
+using Example5;
 
 namespace Example51
 {
@@ -27,8 +30,6 @@ namespace Example51
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static Action EmptyDelegate = delegate() { };
-
         public MainWindow()
         // Constructor for Window object
         {
@@ -37,13 +38,17 @@ namespace Example51
             // Numbered buttons
             foreach (int i in ViewModel.ButtonIds)
             {
-                var lb = new Label {Margin = new Thickness(10)};
-                var b = new Button {FontSize = 25, Content = new Viewbox {Child = lb}};
-                
-                lb.SetBinding(Label.ContentProperty, string.Format("Buttons[{0}].Content", i));
-                b.SetBinding(ButtonBase.IsEnabledProperty, string.Format("Buttons[{0}].IsEnabled", i));
+                var b = new GameButton();
+                //var lb = new Label {Margin = new Thickness(10)};
+                //var b = new Button {FontSize = 25, Content = new Viewbox {Child = lb}};
+
+                b.SetBinding(GameButton.CellContentProperty, string.Format("Buttons[{0}].Content", i));
+                b.SetBinding(GameButton.MyVisibilityProperty, string.Format("Buttons[{0}].IsEnabled", i));
+                b.SetBinding(GameButton.XdirProperty, string.Format("Buttons[{0}].Xdir", i));
+                b.SetBinding(GameButton.YdirProperty, string.Format("Buttons[{0}].Ydir", i));
                 b.Tag = i;
                 b.Click += ButtonClick;
+                b.Anim.Completed += (sender, args) => ViewModel.Refresh();
                 Pane.Children.Add(b);
             }
         }
@@ -51,7 +56,7 @@ namespace Example51
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             var b = (Button)sender;
-            ViewModel.Click(Pane.Children.IndexOf(b));
+            ViewModel.Click((int)b.Tag);
         }
 
         private void ShufflePane(object sender, RoutedEventArgs e)
@@ -100,7 +105,12 @@ namespace Example51
             {
                 MessageBox.Show(string.Format("Congratulations! Elapsed time: {0}", ViewModel.Elapsed));
             }
-            Pane.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
+            int index;
+            if (int.TryParse(e.PropertyName, out index))
+            {
+                var b = (GameButton)Pane.Children[index];
+                b.Str.Begin();
+            }
         }
     }
 }
