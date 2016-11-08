@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Example12.CircleButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Example12"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <Grid>
+        <Ellipse Fill="Red" Stroke="Black" StrokeThickness="2">
+            <Ellipse.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseDown">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation 
+                                Storyboard.TargetProperty="Fill.Color"
+                                Duration="0:0:0.03" To="Green"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Mouse.MouseUp">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation 
+                                Storyboard.TargetProperty="Fill.Color"
+                                Duration="0:0:0.03" To="Cyan"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard >
+                            <ColorAnimation Storyboard.TargetProperty="Fill.Color"
+                                            Duration="0:0:0.9" To="Cyan"/>
+                            <DoubleAnimation Storyboard.TargetProperty="StrokeThickness"
+                                             To="5" Duration="0:0:0.9"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="Fill.Color"
+                                            Duration="0:0:0.9" To="Red"/>
+                            <DoubleAnimation Storyboard.TargetProperty="StrokeThickness"
+                                             To="2" Duration="0:0:0.9"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Ellipse.Triggers>
+
+        </Ellipse>
+        <Viewbox Stretch="Uniform" Margin="50">
+            <ContentControl x:Name="ContentControl"  Content="Test" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Viewbox>
+       
+    </Grid>
+        
+    
+
+</UserControl>

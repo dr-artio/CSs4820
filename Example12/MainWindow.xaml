@@ -14,7 +14,7 @@
                                 Storyboard.TargetProperty="(Canvas.Left)" 
                                 From="300" To="0" 
                                 Duration="0:0:01.5"
-                                AutoReverse="False"/>
+                                AutoReverse="True"/>
             </Storyboard>
         
     </Window.Resources>
@@ -25,5 +25,39 @@
         <Slider x:Name="speed" Minimum="1" Maximum="10" Width="100"/>
        
         <TextBox x:Name="text" TextWrapping="Wrap"/>
+        <Path Stroke="Black" StrokeThickness="2" Fill="Red"  >
+            <Path.Triggers>
+                <EventTrigger RoutedEvent="Path.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetProperty="Fill.Color"
+                                
+                                Duration="0:0:01.0" To="Blue"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetProperty="Fill.Color"
+                                Duration="0:0:01.0" To="Red"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Path.Triggers>
+            <Path.Data>
+                <EllipseGeometry x:Name="Path" RadiusX="10" RadiusY="10" Center="10,10">
+                       
+                </EllipseGeometry>
+                
+            </Path.Data>
+        </Path>
+        <local:CircleButton Width="200" >
+            <local:CircleButton.MyContent>
+                <CheckBox Content="Check"></CheckBox>
+            </local:CircleButton.MyContent>
+        </local:CircleButton>
     </StackPanel>
 </Window>

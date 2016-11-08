@@ -10,20 +10,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Example10.View
+namespace Example12
 {
     /// <summary>
-    /// Interaction logic for CustomWindow.xaml
+    /// Interaction logic for CircleButton.xaml
     /// </summary>
-    public partial class CustomWindow : Window
+    public partial class CircleButton : UserControl
     {
-        public CustomWindow()
+        public CircleButton()
         {
             InitializeComponent();
         }
 
-        
+        public object MyContent
+        {
+            set { ContentControl.Content = value; }
+        }
     }
 }
