@@ -33,6 +33,12 @@
                         <Storyboard >
                             <ColorAnimation Storyboard.TargetProperty="Fill.Color"
                                             Duration="0:0:0.9" To="Cyan"/>
+                            
+                        </Storyboard>
+                    
+                    </BeginStoryboard>
+                   <BeginStoryboard>
+                        <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="StrokeThickness"
                                              To="5" Duration="0:0:0.9"/>
                         </Storyboard>
