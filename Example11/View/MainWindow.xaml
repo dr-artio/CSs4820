@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="126*"/>
                 <ColumnDefinition Width="29*"/>
             </Grid.ColumnDefinitions>
-            <Slider Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="1" Value="{Binding Red}"/>
+            <Slider Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="1" Value="{Binding Red}" AutoToolTipPlacement="BottomRight"/>
             <Slider Maximum="255" Grid.Column="1" Margin="0,4,0,0" Grid.Row="2" Value="{Binding Green}"/>
             <Slider Maximum="255"  Grid.Column="1" Margin="0,4,0,0" Grid.Row="3" Value="{Binding Blue}"/>
             <Label Content="Color:"  Grid.RowSpan="2"/>

@@ -65,12 +65,11 @@ namespace Example51
         /// <param name="e"></param>
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            var b = (Button)sender;
-            var cb = b.Parent as GameButton;
+            var b = (Button)sender;     
             
             if (ViewModel.IsAnimationInProgress) return;
             
-            foreach (var i in ViewModel.IdsToShift((int) cb.Tag))
+            foreach (var i in ViewModel.IdsToShift((int) b.Tag))
             {
                 var ci = Pane.Children[i] as GameButton;
                 ci.BeginTransalation();

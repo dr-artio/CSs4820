@@ -126,6 +126,7 @@ namespace Example5
             }
             // update diractions of animation for GameButton controls
             ResetDirs();
+            IsAnimationInProgress = false;
         }
 
         /// <summary>
@@ -152,7 +153,9 @@ namespace Example5
             var cmpx = xi.CompareTo(xj);
             if (cmpy == 0 || cmpx == 0)
             {
-                for (int x = xj + cmpx, y = yj + cmpy; x != xi+cmpx || y != yi+cmpy; x += cmpx, y += cmpy)
+                for (int x = xj + cmpx, y = yj + cmpy; 
+                    x != xi+cmpx || y != yi+cmpy; 
+                    x += cmpx, y += cmpy)
                 {
                     yield return FromCoordinates(x, y);
                 }
@@ -213,7 +216,6 @@ namespace Example5
                     _buttons[i].Ydir = 0; 
                 }
             }
-            IsAnimationInProgress = false;
             OnPropertyChanged("Buttons");
         }
 
@@ -241,6 +243,12 @@ namespace Example5
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void GetCoordinates(int index, out int x, out int y)
         {
             x = index % SIZE;
@@ -249,14 +257,9 @@ namespace Example5
 
         private int FromCoordinates(int x, int y)
         {
-            return y*SIZE + x;
+            return y * SIZE + x;
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 
     /// <summary>
