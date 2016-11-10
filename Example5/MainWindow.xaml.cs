@@ -43,12 +43,12 @@ namespace Example51
                 //var b = new Button {FontSize = 25, Content = new Viewbox {Child = lb}};
 
                 b.SetBinding(GameButton.CellContentProperty, string.Format("Buttons[{0}].Content", i));
-                b.SetBinding(GameButton.MyVisibilityProperty, string.Format("Buttons[{0}].IsEnabled", i));
+                b.SetBinding(GameButton.MyVisibilityProperty, string.Format("Buttons[{0}].Visibility", i));
                 b.SetBinding(GameButton.XdirProperty, string.Format("Buttons[{0}].Xdir", i));
                 b.SetBinding(GameButton.YdirProperty, string.Format("Buttons[{0}].Ydir", i));
                 b.Tag = i;
                 b.Click += ButtonClick;
-                b.Anim.Completed += (sender, args) => ViewModel.Refresh();
+                b.Anim.Completed += (sender, args) => ViewModel.Click(i);
                 Pane.Children.Add(b);
             }
         }
@@ -56,8 +56,20 @@ namespace Example51
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             var b = (Button)sender;
-            ViewModel.Click((int)b.Tag);
+            var cb = b.Parent as GameButton;
+            
+            if (ViewModel.IsAnimationInProgress) return;
+            
+            foreach (var i in ViewModel.IdsToShift((int) cb.Tag))
+            {
+                var ci = Pane.Children[i] as GameButton;
+                ci.BeginTransalation();
+                ViewModel.IsAnimationInProgress = true;
+            }
+            
         }
+
+        
 
         private void ShufflePane(object sender, RoutedEventArgs e)
         {

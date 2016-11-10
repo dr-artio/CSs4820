@@ -65,6 +65,8 @@ namespace Example5
             get { return !IsOrdered; }
         }
 
+        public bool IsAnimationInProgress { get; set; }
+
         public void Click(int index)
         {
             if (index == _empty || (IsOrdered && !_isShuffling)) return;
@@ -73,28 +75,44 @@ namespace Example5
             int xj, yj;
             GetCoordinates(_empty, out xj, out yj);
 
-            //var cmpy = yi.CompareTo(yj);
-            //var cmpx = xi.CompareTo(xj);
-            //if (cmpy == 0 || cmpx == 0)
-            //{
-            //    Click(FromCoordinates(xi - cmpx, yi - cmpy));
-            //    GetCoordinates(_empty, out xj, out yj);
-            //}
+            
 
             if (Math.Abs(xi - xj) + Math.Abs(yi - yj) == 1)
             {
-                var state = _buttons[_empty];
-                _buttons[_empty] = _buttons[index];
-                _buttons[index] = state;
-                _empty = index;
-
-                OnPropertyChanged(index.ToString());
+                SwapStates(index);
                 OnPropertyChanged("IsOrdered");
                 OnPropertyChanged("IsResetEnabled");
                 
                 if (IsOrdered) _stopwatch.Stop();
             }
             ResetDirs();
+        }
+
+        public IEnumerable<int> IdsToShift(int index)
+        {
+            if (index == _empty || (IsOrdered && !_isShuffling)) yield break;
+            int xi, yi;
+            GetCoordinates(index, out xi, out yi);
+            int xj, yj;
+            GetCoordinates(_empty, out xj, out yj);
+
+            var cmpy = yi.CompareTo(yj);
+            var cmpx = xi.CompareTo(xj);
+            if (cmpy == 0 || cmpx == 0)
+            {
+                for (int x = xj + cmpx, y = yj + cmpy; x != xi+cmpx || y != yi+cmpy; x += cmpx, y += cmpy)
+                {
+                    yield return FromCoordinates(x, y);
+                }
+            }
+        }
+
+        private void SwapStates(int index)
+        {
+            var state = _buttons[_empty];
+            _buttons[_empty] = _buttons[index];
+            _buttons[index] = state;
+            _empty = index;
         }
 
         public void Reset()
@@ -120,7 +138,7 @@ namespace Example5
             {
                 int x, y;
                 GetCoordinates(i, out x, out y);
-                if (Math.Abs(ex - x) + Math.Abs(ey - y) == 1 && !IsOrdered)
+                if (!IsOrdered)
                 {
                     _buttons[i].Xdir = ex.CompareTo(x);
                     _buttons[i].Ydir = ey.CompareTo(y); 
@@ -131,7 +149,8 @@ namespace Example5
                     _buttons[i].Ydir = 0; 
                 }
             }
-            //OnPropertyChanged("Buttons");
+            IsAnimationInProgress = false;
+            OnPropertyChanged("Buttons");
         }
 
         public void Shuffle()
@@ -174,9 +193,9 @@ namespace Example5
     }
 
     class State
-    {
+    {   
         public string Content { get; set; }
-        public Visibility IsEnabled { get { return string.IsNullOrEmpty(Content) ? Visibility.Hidden : Visibility.Visible; } }
+        public Visibility Visibility { get { return string.IsNullOrEmpty(Content) ? Visibility.Hidden : Visibility.Visible; } }
         public int Key { get; set; }
         public int Xdir { get; set; }
         public int Ydir { get; set; }

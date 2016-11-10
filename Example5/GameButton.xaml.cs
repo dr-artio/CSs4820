@@ -94,9 +94,10 @@ namespace Example5
             verticalShift = e.NewSize.Height;
         }
 
-        private void Cell_OnClick(object sender, RoutedEventArgs e)
+        public void BeginTransalation()
         {
             Translation.To = GetShift(Xdir, Ydir);
+            Str.Begin();
         }
 
         private Thickness GetShift(int xdir, int ydir)
