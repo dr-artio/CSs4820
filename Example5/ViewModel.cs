@@ -16,15 +16,26 @@ namespace Example5
 {
     class ViewModel : INotifyPropertyChanged
     {
+        // Number of buttons in the row
         private const int SIZE = 4;
-        private const int SHUFFLE_DEPTH = 200;
+        // Number of random clicks for shuffling
+        private const int SHUFFLE_DEPTH = 2000;
+        // Collection of states bound to buttons
         private readonly Dictionary<int, State> _buttons = new Dictionary<int, State>();
+        // list of ids (indecies) of buttons
         private readonly List<int> _keys = new List<int>();
+        // index of empy button
         private int _empty;
+        // default index of empty button. The last element.
         private int l = SIZE*SIZE - 1;
+        // flag for shuffling to prevent any events from raising while game is starting
         private bool _isShuffling = false;
+        // Time measurment object to report time when game is finished
         private readonly Stopwatch _stopwatch;
 
+        /// <summary>
+        /// Constructor initializes list of ids and reset states
+        /// </summary>
         public ViewModel()
         {
             _stopwatch = new Stopwatch();
@@ -35,38 +46,66 @@ namespace Example5
             Reset();
         }
 
+        /// <summary>
+        /// Property to be bound with list of buttnt in grid
+        /// </summary>
         public Dictionary<int, State> Buttons
         {
             get { return _buttons; }
         }
 
+        /// <summary>
+        /// Property to access list of ids
+        /// </summary>
         public IEnumerable<int> ButtonIds
         {
             get { return _keys; }            
         }
 
+        /// <summary>
+        /// Property to check if current ordering is proper. False if flag IsShuffling
+        /// is true.
+        /// </summary>
         public bool IsOrdered
         {
             get { return !_isShuffling && _buttons.All(x => x.Key == x.Value.Key); }
         }
 
+        /// <summary>
+        /// Property to display elapsed time when game is finished
+        /// </summary>
         public string Elapsed
         {
             get { return _stopwatch.Elapsed.ToString(@"mm\:ss"); }
         }
 
+        /// <summary>
+        /// Property is true when pane is shuffled and game is active
+        /// </summary>
         public bool IsStarted
         {
             get { return _stopwatch.ElapsedMilliseconds > 0; }
         }
 
+        /// <summary>
+        /// Property negation of isStarted for binding to reset menuitem
+        /// </summary>
         public bool IsResetEnabled
         {
             get { return !IsOrdered; }
         }
 
+        /// <summary>
+        /// Auto-property flag to indicate that animation is active.
+        /// Used to prevend bugus behavior when several animations 
+        /// started simulteniously.
+        /// </summary>
         public bool IsAnimationInProgress { get; set; }
 
+        /// <summary>
+        /// Method to try swapping states with empty button 
+        /// </summary>
+        /// <param name="index">Index of clicked button</param>
         public void Click(int index)
         {
             if (index == _empty || (IsOrdered && !_isShuffling)) return;
@@ -75,21 +114,34 @@ namespace Example5
             int xj, yj;
             GetCoordinates(_empty, out xj, out yj);
 
-            
-
+            // check if clicked button is neigbor of empty button
             if (Math.Abs(xi - xj) + Math.Abs(yi - yj) == 1)
             {
+                // Swap states and send update to window
                 SwapStates(index);
                 OnPropertyChanged("IsOrdered");
                 OnPropertyChanged("IsResetEnabled");
                 
                 if (IsOrdered) _stopwatch.Stop();
             }
+            // update diractions of animation for GameButton controls
             ResetDirs();
         }
 
+        /// <summary>
+        /// Generator for indecies of buttons to be moved
+        /// when button is clicked. If clicked button is not 
+        /// adjuscent to empty button but in same row or column 
+        /// we can move row or column all button between 
+        /// empty button and clicked one
+        /// </summary>
+        /// <param name="index">index of clicked button</param>
+        /// <returns>Iterator over buttons to move</returns>
         public IEnumerable<int> IdsToShift(int index)
         {
+            // empty iterator in case if we clicked on empty button or order is correct 
+            // and we are not shuffling. Iterator will be empty if we click on button not in
+            // the same row and column with empty button
             if (index == _empty || (IsOrdered && !_isShuffling)) yield break;
             int xi, yi;
             GetCoordinates(index, out xi, out yi);
@@ -107,6 +159,10 @@ namespace Example5
             }
         }
 
+        /// <summary>
+        /// Swap stated in the dictionary
+        /// </summary>
+        /// <param name="index"></param>
         private void SwapStates(int index)
         {
             var state = _buttons[_empty];
@@ -115,6 +171,9 @@ namespace Example5
             _empty = index;
         }
 
+        /// <summary>
+        /// Reset states and send updates to window 
+        /// </summary>
         public void Reset()
         {
             _stopwatch.Reset();
@@ -130,6 +189,11 @@ namespace Example5
             OnPropertyChanged("IsOrdered");
         }
 
+        /// <summary>
+        /// Reset direction of animations for all buttons
+        /// They depend on position of empty button. So 
+        /// all directions are toward empty button
+        /// </summary>
         public void ResetDirs()
         {
             int ex, ey;
@@ -153,6 +217,10 @@ namespace Example5
             OnPropertyChanged("Buttons");
         }
 
+        /// <summary>
+        /// Randomly shuffle buttons 
+        /// 
+        /// </summary>
         public void Shuffle()
         {
             _isShuffling = true;
@@ -167,11 +235,10 @@ namespace Example5
             _stopwatch.Restart();
         }
 
-        public void Refresh()
-        {
-            OnPropertyChanged("Buttons");
-        }
-
+        
+        /// <summary>
+        /// INotifyPropertyChanged implementation
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void GetCoordinates(int index, out int x, out int y)
@@ -192,12 +259,20 @@ namespace Example5
         }
     }
 
+    /// <summary>
+    /// State object for buttons
+    /// </summary>
     class State
     {   
+        // Content to display on the button
         public string Content { get; set; }
+        // Invisible if button is empty
         public Visibility Visibility { get { return string.IsNullOrEmpty(Content) ? Visibility.Hidden : Visibility.Visible; } }
+        // Id of corresponding state
         public int Key { get; set; }
+        // horizontal direction of animation (-1 left 1 right 0 no move)
         public int Xdir { get; set; }
+        // vertival direction of animation (-1 up 1 down 0 no move) 
         public int Ydir { get; set; }
     }
 }

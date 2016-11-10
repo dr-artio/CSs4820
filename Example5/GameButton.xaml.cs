@@ -21,9 +21,18 @@ namespace Example5
     /// </summary>
     public partial class GameButton : UserControl
     {
+        /// <summary>
+        /// We store shifts vertical and horizontal for animaation
+        /// since we need to move button on exactly actual width 
+        /// horizontally and actual height vertically. Those values
+        /// automatically updated when widow is resized.
+        /// </summary>
         private double horizontalShift;
         private double verticalShift;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GameButton()
         {
             InitializeComponent();
@@ -34,6 +43,10 @@ namespace Example5
             };
         }
 
+        /// <summary>
+        /// Dependency properties for binding. It is only relevent for
+        /// WPF and use of UserControl for this program
+        /// </summary>
         public static readonly DependencyProperty CellContentProperty =
             DependencyProperty.Register(
                 "CellContent", typeof(object), typeof(GameButton), 
@@ -51,55 +64,83 @@ namespace Example5
             DependencyProperty.Register(
                 "Ydir", typeof(int), typeof(GameButton));
 
+        /// <summary>
+        /// Redirectio of click event handler for our control to
+        /// click event of button inside our control
+        /// </summary>
         public event RoutedEventHandler Click
         {
             add { Cell.Click += value; }
             remove { Cell.Click -= value; }
         }
         
+        /// <summary>
+        /// Property for content
+        /// </summary>
         public object CellContent
         {
             get { return GetValue(CellContentProperty); }
             set { SetValue(CellContentProperty, value); }
         }
 
+        /// <summary>
+        /// Visibility property
+        /// </summary>
         public Visibility MyVisibility
         {
             get { return (Visibility)GetValue(MyVisibilityProperty); }
             set { SetValue(MyVisibilityProperty, value); }
         }
 
+        /// <summary>
+        /// Redirecting Tag property to tag of button inside our control
+        /// </summary>
         public new object Tag
         {
             get { return Cell.Tag; }
             set { Cell.Tag = value; }
         }
 
+        /// <summary>
+        /// Property to acces animation object
+        /// </summary>
         public ThicknessAnimation Anim
         {
             get { return Translation; }
         }
 
-        public Storyboard Story
-        {
-            get { return Str; }
-        }
-
+        // Direction preperties
         public int Xdir { get { return (int) GetValue(XdirProperty); } set {SetValue(XdirProperty, value);} }
         public int Ydir { get { return (int) GetValue(YdirProperty); } set {SetValue(YdirProperty, value);} }
 
+        /// <summary>
+        /// Resize updates values for shifts for animation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameButton_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             horizontalShift = e.NewSize.Width;
             verticalShift = e.NewSize.Height;
         }
 
+        /// <summary>
+        /// Start animation, called when we click on the button
+        /// or we ewant to move it.
+        /// </summary>
         public void BeginTransalation()
         {
             Translation.To = GetShift(Xdir, Ydir);
             Str.Begin();
         }
 
+        /// <summary>
+        /// Get shift for animation "To" value. It is based on vertical 
+        /// and horixzontal shifts and direction
+        /// </summary>
+        /// <param name="xdir">horizontal direction</param>
+        /// <param name="ydir">vertical direction</param>
+        /// <returns></returns>
         private Thickness GetShift(int xdir, int ydir)
         {
             xdir = Math.Sign(xdir);

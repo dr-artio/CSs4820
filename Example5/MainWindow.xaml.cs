@@ -30,8 +30,10 @@ namespace Example51
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Contructor for MAinWindow
+        /// </summary>
         public MainWindow()
-        // Constructor for Window object
         {
             InitializeComponent();
 
@@ -53,6 +55,14 @@ namespace Example51
             }
         }
 
+        /// <summary>
+        /// Handler for button clicks. Switch flag of annimation to true
+        /// to prevent starting another animation and retrive list of
+        /// buttons to move. Then start animation of all buttons in the 
+        /// list. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
             var b = (Button)sender;
@@ -70,7 +80,11 @@ namespace Example51
         }
 
         
-
+        /// <summary>
+        /// Handler for shuffling (starting new game)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShufflePane(object sender, RoutedEventArgs e)
         {
             ViewModel.Shuffle();
@@ -86,6 +100,11 @@ namespace Example51
             Close();
         }
 
+        /// <summary>
+        /// Tabulation behavior override (not very relevant)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
             var focus = Keyboard.FocusedElement as UIElement;
@@ -111,17 +130,16 @@ namespace Example51
 
         }
 
+        /// <summary>
+        /// Property changed handler. It shows congratulations message box when game if finished
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewModel_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsOrdered" && ViewModel.IsOrdered && ViewModel.IsStarted)
             {
                 MessageBox.Show(string.Format("Congratulations! Elapsed time: {0}", ViewModel.Elapsed));
-            }
-            int index;
-            if (int.TryParse(e.PropertyName, out index))
-            {
-                var b = (GameButton)Pane.Children[index];
-                b.Str.Begin();
             }
         }
     }
