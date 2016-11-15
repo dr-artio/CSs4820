@@ -27,8 +27,8 @@ namespace Example5
         /// horizontally and actual height vertically. Those values
         /// automatically updated when widow is resized.
         /// </summary>
-        private double horizontalShift;
-        private double verticalShift;
+        private double _horizontalShift;
+        private double _verticalShift;
 
         /// <summary>
         /// Constructor
@@ -47,15 +47,6 @@ namespace Example5
         /// Dependency properties for binding. It is only relevent for
         /// WPF and use of UserControl for this program
         /// </summary>
-        public static readonly DependencyProperty CellContentProperty =
-            DependencyProperty.Register(
-                "CellContent", typeof(object), typeof(GameButton), 
-                new PropertyMetadata(FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty MyVisibilityProperty =
-            DependencyProperty.Register(
-                "MyVisibility", typeof(Visibility), typeof(GameButton));
-
         public static readonly DependencyProperty XdirProperty = 
             DependencyProperty.Register(
                 "Xdir", typeof(int), typeof(GameButton));
@@ -72,24 +63,6 @@ namespace Example5
         {
             add { Cell.Click += value; }
             remove { Cell.Click -= value; }
-        }
-        
-        /// <summary>
-        /// Property for content
-        /// </summary>
-        public object CellContent
-        {
-            get { return GetValue(CellContentProperty); }
-            set { SetValue(CellContentProperty, value); }
-        }
-
-        /// <summary>
-        /// Visibility property
-        /// </summary>
-        public Visibility MyVisibility
-        {
-            get { return (Visibility)GetValue(MyVisibilityProperty); }
-            set { SetValue(MyVisibilityProperty, value); }
         }
 
         /// <summary>
@@ -120,8 +93,8 @@ namespace Example5
         /// <param name="e"></param>
         private void GameButton_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            horizontalShift = e.NewSize.Width;
-            verticalShift = e.NewSize.Height;
+            _horizontalShift = e.NewSize.Width;
+            _verticalShift = e.NewSize.Height;
         }
 
         /// <summary>
@@ -147,7 +120,7 @@ namespace Example5
             ydir = Math.Sign(ydir);
             if (xdir != 0 && ydir != 0)
                 return new Thickness(0);
-            return new Thickness(xdir*horizontalShift, ydir*verticalShift, -xdir*horizontalShift, -ydir*verticalShift);
+            return new Thickness(xdir*_horizontalShift, ydir*_verticalShift, -xdir*_horizontalShift, -ydir*_verticalShift);
         }
     }
 }
